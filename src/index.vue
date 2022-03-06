@@ -121,7 +121,6 @@ export default {
       })
     },
     doComplete(base64, isCrop) {
-      const { brId, brName, versionId } = this.projectObj
       const editorDialogRef = this.$refs.editorDialogRef
       if (isCrop) {
         this.currentSrc = base64
@@ -129,37 +128,10 @@ export default {
           editorDialogRef.reInit()
         })
       } else {
-        this.$http({
-          url: `/decision/file/base64`,
-          method: 'post',
-          data: {
-            businessId: this.businessId,
-            businessType: this.businessType,
-            fileName: 'crop.jpg',
-            fileSuffix: 'jpg',
-            brId,
-            brName,
-            versionId,
-            position: this.position,
-            sequence: this.sequence,
-            id: this.obj.id,
-            base64
-          }
-        }).then((res) => {
-          if (res.data.code === '200') {
-            const data = res.data.data
-            const fileUrl = data.fileUrl
-            this.originSrc = fileUrl
-            this.$emit('update:src', fileUrl)
-            this.$nextTick(() => {
-              if (!isCrop) {
-                editorDialogRef.reInit()
-                this.$emit('update:open', false)
-              }
-            })
-            this.obj.id = data.id
-            this.obj.thumbnail = data.thumbnail
-            this.$emit('editSuccess', res.data)
+        this.$nextTick(() => {
+          if (!isCrop) {
+            editorDialogRef.reInit()
+            this.$emit('update:open', false)
           }
         })
       }
