@@ -1,4 +1,7 @@
 module.exports = {
+  publicPath: process.env.NODE_ENV === 'production'
+    ? '/image-edit/'
+    : '/',
   chainWebpack: (config) => {
     // 删除默认的splitChunk
     config.optimization.delete('splitChunks')
