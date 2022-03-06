@@ -1,28 +1,43 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div>
+    <!-- <el-image :src="src" :preview-src-list="srcList"></el-image> -->
+    <button @click="changeOpen">改变open</button>
+    <button @click="changeSrc">改变src</button>
+    <image-editor
+      businessId="1465642620448337922"
+      :businessType="1"
+      position="zi_ding_yi_de_zhi"
+      :open.sync="open"
+      :src.sync="src"
+    />
+    <img :src="src" />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import ImageEditor from './index.vue'
 export default {
-  name: 'App',
   components: {
-    HelloWorld
+    ImageEditor
+  },
+  data() {
+    return {
+      src: 'https://picsum.photos/seed/1200/2000',
+      srcList: ['https://picsum.photos/seed/1200/2000', 'https://picsum.photos/seed/200/300'],
+      open: false,
+      imageIndex: 0
+    }
+  },
+  methods: {
+    changeOpen() {
+      this.open = !this.open
+    },
+    changeSrc() {
+      this.imageIndex = (this.imageIndex + 1) % 2
+      this.src = this.srcList[this.imageIndex]
+    }
   }
 }
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
+<style></style>
